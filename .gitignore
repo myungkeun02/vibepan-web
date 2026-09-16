@@ -32,3 +32,6 @@ docs/qa/playwright-results.json
 .env.local
 .data/
 .coverage/
+
+.next/
+*.tsbuildinfo

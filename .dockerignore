@@ -9,3 +9,6 @@ data/test
 test-results
 playwright-report
 docs/qa/screenshots
+
+.next/
+*.tsbuildinfo

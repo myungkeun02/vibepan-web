@@ -1,2 +1,2 @@
 import { currentPresentation } from './api-client';
-export const mailAvailable = () => currentPresentation().features.mail;
+export const mailAvailable = async () => (await currentPresentation()).features.mail;

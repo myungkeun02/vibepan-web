@@ -8,7 +8,8 @@ COPY . .
 RUN pnpm build && pnpm prune --prod
 FROM node:22-bookworm-slim
 WORKDIR /app
-COPY --from=build /app/dist ./dist
+COPY --from=build /app/.next ./.next
+COPY --from=build /app/server.mjs /app/next.config.mjs ./
 COPY --from=build /app/node_modules ./node_modules
 COPY --from=build /app/data/apps ./data/apps
 COPY --from=build /app/data/categories.json /app/data/exchange.json /app/data/icons.json ./data/
@@ -18,4 +19,4 @@ RUN mkdir -p /data && chown -R node:node /data /app/data
 USER node
 ENV HOST=0.0.0.0 PORT=4310 NODE_ENV=production APP_ENV=production
 EXPOSE 4310
-CMD ["node","dist/server/entry.mjs"]
+CMD ["node","server.mjs"]

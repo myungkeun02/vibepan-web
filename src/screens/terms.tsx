@@ -1,0 +1,65 @@
+import { createMetadata } from '../lib/metadata';
+import type { ReactNode } from 'react';
+import { cn, styleObject, Select } from '../lib/jsx';
+import { getPageContext } from '../lib/server-context';
+
+import Base from '../layouts/Base';
+export default async function Viewtermsastro(props: Record<string, any> & { children?: ReactNode }) {
+  const ctx = { ...(await getPageContext()), params: await (props.params || {}) };
+
+  return (
+    <>
+      <Base title={'이용약관'}>
+        <article className={'prose narrow'}>
+          <h1>{'이용약관'}</h1>
+          <p>
+            {
+              '\n      2026년 9월 8일 운영 준비 초안입니다. 운영 주체와 연락처를 확정하고 필요한 법률 검토를 거쳐야 합니다.\n    '
+            }
+          </p>
+          <h2>{'서비스의 목적'}</h2>
+          <p>
+            {
+              '\n      바이브코딩가능?은 도구의 특정 기능을 직접 만들 수 있는지 검토한 의견, 제작 프롬프트와 사용자가 공유하는\n      제작 경험을 제공합니다. 제품 전체의 호환이나 제작 성공을 보증하지 않습니다.\n    '
+            }
+          </p>
+          <h2>{'계정과 콘텐츠'}</h2>
+          <p>
+            {
+              '\n      본인의 이메일과 안전한 비밀번호를 사용해 주세요. 타인 사칭, 개인정보 노출, 악성 코드 배포, 불법 콘텐츠와\n      도배는 허용하지 않습니다. 작성자는 자신이 공유할 권리가 있는 콘텐츠만 게시해야 합니다.\n    '
+            }
+          </p>
+          <p>
+            {
+              '\n      작성자는 자신의 글과 댓글, 등록한 SaaS를 수정·삭제할 수 있습니다. SaaS 등록과 수정은 운영자 검토 후\n      공개됩니다. 운영자는 신고와 운영 정책에 따라 콘텐츠를 숨기거나 계정 이용을 제한할 수 있으며, 주요 조치를\n      기록합니다.\n    '
+            }
+          </p>
+          <h2>{'가격과 대체 기록'}</h2>
+          <p>
+            {
+              '\n      가격은 표시된 출처와 확인일 기준이며 변경될 수 있습니다. 대체 경험은 사용자가 직접 표시한 응답입니다.\n      이를 절약액이나 이용자 수로 환산하지 않습니다.\n    '
+            }
+          </p>
+          <h2>{'라이선스'}</h2>
+          <p>
+            {
+              '\n      이 서비스의 소스와 공개 제작 프롬프트에는 저장소의 MIT 라이선스가 적용됩니다. 사용자 게시물과 외부\n      제품·이미지·디자인 자료에는 각각의 권리가 적용됩니다. 외부 도구와 대안으로 소개한 도구의 라이선스는 해당\n      원문을 확인해 주세요.\n    '
+            }
+          </p>
+          <h2>{'탈퇴와 문의'}</h2>
+          <p>
+            {
+              '\n      내 활동에서 탈퇴할 수 있습니다. 데이터 처리는 개인정보 처리 안내에 따릅니다. 운영 주체·문의처: [공개 전\n      입력 필요].\n    '
+            }
+          </p>
+        </article>
+      </Base>
+    </>
+  );
+}
+
+export async function pageMetadata(props: Record<string, any>) {
+  const ctx = { ...(await getPageContext()), params: await (props.params || {}) };
+
+  return createMetadata({ title: '이용약관' }, ctx.url.pathname);
+}

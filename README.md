@@ -15,6 +15,14 @@
 
 API에는 서버 간 연결 키 검증과 별도로 사용자/관리자 세션, 권한, Origin, CSRF 검사가 있다. 서버 간 연결 키만으로 관리자 권한을 얻을 수 없다. 프론트가 응답을 만들 때 사용하는 페이지 데이터와 보조 조회는 정해진 기능만 제공하며 SQL을 전송하는 인터페이스는 없다.
 
+## 현재 런타임과 화면
+
+Next.js 16.3.5 App Router + React 19.3.0 + TypeScript를 사용한다. `src/app`이 라우팅과 메타데이터를 담당하고, `src/screens`와 `src/components`는 React Server Components로 HTML을 만든다. 검색은 Next 라우터를 사용하며 브라우저 뒤로 가기와 URL 상태를 복원한다. 폼 제출·첨부·모바일 메뉴의 브라우저 동작은 클라이언트 컴포넌트에서 연결하고 화면이 바뀌면 정리한다.
+
+현재 파비콘에서 추출한 **#FB771A**를 버튼과 강조색으로 사용한다. 밝은 화면을 기본으로 하되 사용자가 선택한 어두운 화면을 유지한다. 얇은 테두리와 작은 곡률을 적용하며 모바일 탐색·필터·상세 탭은 전용 구성을 유지한다.
+
+`src/proxy.ts`는 백엔드 `/api/session`에서 쿠키를 준비하고, 서버 컴포넌트는 `/api/presentation` 및 허용된 조회 API로 데이터를 받는다. 이 내부 API들은 브라우저에서 직접 호출할 수 없다. 요청별 데이터는 React 요청 캐시 또는 AsyncLocalStorage로 격리하며 개인화 응답은 캐시하지 않는다. 로그인·OAuth·CSRF 검증의 주체는 Nest 백엔드다.
+
 ## 로컬 실행
 
 Node 22.12 이상, pnpm 10.30.1을 사용한다. `.env.example`을 `.env`로 복사하여 실제 값을 로컬에서 설정한다.
@@ -27,7 +35,11 @@ pnpm build
 pnpm start
 ```
 
-`API_ORIGIN`은 연결할 백엔드 주소이며, `FRONTEND_ORIGIN`은 이 화면의 외부 주소다. `API_PROXY_SECRET`은 대응하는 API와 동일하게 설정한다. 이 값은 서버에서만 사용하며 `PUBLIC_` 환경변수나 브라우저 번들에 넣지 않는다. `SITE_URL`은 일반 서비스의 외부 주소다. 관리자 화면은 `FRONTEND_ORIGIN`과 `ADMIN_SITE_URL`을 관리자 외부 주소로 설정한다.
+`API_ORIGIN`은 연결할 백엔드 주소이며, `FRONTEND_ORIGIN`은 이 화면의 외부 주소다. `API_PROXY_SECRET`은 대응하는 API와 동일하게 설정한다. 이 값은 서버에서만 사용하며 `NEXT_PUBLIC_` 등의 공개 환경변수나 브라우저 번들에 넣지 않는다. `SITE_URL`은 일반 서비스의 외부 주소다. 관리자 화면은 `FRONTEND_ORIGIN`과 `ADMIN_SITE_URL`을 관리자 외부 주소로 설정한다.
+
+`pnpm dev`는 Next 개발 서버를, `pnpm start`는 빌드된 서버를 시작한다. Node 실행에서는 `server.mjs`가 실제 소켓 주소로 내부 IP 헤더를 덮어쓴다. `TRUST_PROXY=1`은 앞단 프록시만 원본 서버에 접근하며 그 프록시가 전달 IP를 덮어쓰는 구성에서만 사용한다. 기본값은 전달 헤더를 신뢰하지 않는다.
+
+Vercel의 기본 Next 배포에서는 커스텀 Node 진입점 대신 플랫폼의 `x-vercel-forwarded-for`를 사용한다. 로컬 통합 검사는 Node 진입점을 대상으로 하므로 Vercel 운영 연결 전에는 실제 도메인의 쿠키·OAuth 왕복·업로드·IP 제한을 확인한다. 프론트 서버에서 지정한 Nest API로 접근할 수 있어야 한다. Next의 페이지 이동 응답은 307이며 API/OAuth의 기존 응답 계약은 유지한다.
 
 ## GitHub Actions와 배포
 

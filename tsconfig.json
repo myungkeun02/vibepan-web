@@ -1,9 +1,24 @@
 {
-  "extends": "astro/tsconfigs/strict",
   "compilerOptions": {
+    "target": "ES2022",
+    "lib": ["dom", "dom.iterable", "esnext"],
     "allowJs": true,
-    "resolveJsonModule": true
+    "skipLibCheck": true,
+    "strict": true,
+    "noEmit": true,
+    "esModuleInterop": true,
+    "module": "esnext",
+    "moduleResolution": "bundler",
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "jsx": "react-jsx",
+    "incremental": true,
+    "plugins": [
+      {
+        "name": "next"
+      }
+    ]
   },
-  "exclude": ["dist", "node_modules", "reference", "playwright-report", "test-results", "data", "public"],
-  "include": [".astro/types.d.ts", "src/**/*", "scripts/**/*.ts", "test/**/*.ts", "*.ts"]
+  "include": ["next-env.d.ts", "src/**/*", ".next/types/**/*.ts", ".next/dev/types/**/*.ts", "test/**/*.ts"],
+  "exclude": ["node_modules", "dist", ".data"]
 }

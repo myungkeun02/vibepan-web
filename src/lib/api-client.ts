@@ -1,6 +1,6 @@
 import { AsyncLocalStorage } from 'node:async_hooks';
-import type { APIContext } from 'astro';
-type Scope = {
+import type { RequestContext as APIContext } from './request-context';
+export type Scope = {
   ctx: APIContext;
   cookies: Map<string, string>;
   setCookies: Map<string, string>;
@@ -8,7 +8,23 @@ type Scope = {
   presentation: any;
 };
 const scope = new AsyncLocalStorage<Scope>();
-export const currentPresentation = () => scope.getStore()!.presentation;
+async function activeScope(): Promise<Scope> {
+  return scope.getStore() || (await import('./server-context')).requestScope();
+}
+export const currentPresentation = async () => (await activeScope()).presentation;
+export function cookieHeader() {
+  return [...scope.getStore()!.cookies].map(([k, v]) => k + '=' + v).join('; ');
+}
+export function createScope(ctx: APIContext): Scope {
+  const cookies = new Map(
+    (ctx.request.headers.get('cookie') || '')
+      .split(';')
+      .map((x) => x.trim())
+      .filter((x) => x.includes('='))
+      .map((x) => [x.slice(0, x.indexOf('=')), x.slice(x.indexOf('=') + 1)]),
+  );
+  return { ctx, cookies, setCookies: new Map(), cache: new Map(), presentation: null };
+}
 export function revive(value: any): any {
   if (Array.isArray(value)) return value.map(revive);
   if (value && typeof value === 'object') {
@@ -44,7 +60,7 @@ export async function withApi(ctx: APIContext, work: () => Promise<Response>) {
   );
 }
 export async function apiRequest(resource: string, init: RequestInit = {}) {
-  const active = scope.getStore();
+  const active = await activeScope();
   if (!active) throw new Error('API request outside rendering context');
   const base = process.env.API_ORIGIN,
     secret = process.env.API_PROXY_SECRET;
@@ -68,6 +84,7 @@ export async function apiRequest(resource: string, init: RequestInit = {}) {
     ...init,
     headers,
     redirect: 'manual',
+    cache: 'no-store',
     signal: AbortSignal.timeout(15000),
   });
   for (const cookie of response.headers.getSetCookie()) {
@@ -80,7 +97,7 @@ export async function apiRequest(resource: string, init: RequestInit = {}) {
   return response;
 }
 export async function readResource(kind: string, input: Record<string, unknown> = {}) {
-  const active = scope.getStore()!;
+  const active = await activeScope();
   const query = new URLSearchParams(Object.entries(input).map(([k, v]) => [k, String(v)]));
   const resource = '/api/resources/' + kind + '?' + query;
   if (!active.cache.has(resource))
@@ -98,7 +115,7 @@ export async function presentation(path: string) {
   const response = await apiRequest('/api/presentation?path=' + encodeURIComponent(path));
   if (response.status !== 200) return response;
   const payload = revive(await response.json());
-  scope.getStore()!.presentation = payload;
+  (await activeScope()).presentation = payload;
   return payload;
 }
 export async function proxyRequest(ctx: APIContext) {
