@@ -1,0 +1,86 @@
+---
+import type { PageData } from '../../contracts/community/index';
+import EmptyState from '../../components/EmptyState.astro';
+import Base from '../../layouts/Base.astro';
+import PostRow from '../../components/PostRow.astro';
+import Newsletter from '../../components/Newsletter.astro';
+import { boards } from '../../lib/config';
+const { r } = Astro.locals.presentation.data as PageData;
+const link = (k: string, v: string) => {
+  const p = new URLSearchParams(Astro.url.searchParams);
+  p.delete('page');
+  v ? p.set(k, v) : p.delete(k);
+  return '/community?' + p;
+};
+---
+
+<Base pageKind="community" title="커뮤니티" noindex={Astro.url.search.length > 0}
+  ><header class="mobile-only mobile-community-head">
+    <h1>커뮤니티</h1><p>제작 후기, 질문, 프롬프트를 올리는 곳입니다.</p>
+  </header><header class="page-head desktop-only">
+    <div class="flex between wrap-flex">
+      <h1 style="margin-top:13px">커뮤니티</h1><a class="button" href="/community/new">글쓰기 +</a>
+    </div><p>제작 후기, 질문, 프롬프트를 올리는 곳입니다.</p>
+  </header><nav class="tabs" aria-label="게시판">
+    <a href="/community" class:list={{ active: !Astro.url.searchParams.get('board') }}>전체 글</a>{
+      Object.entries(boards).map(([k, v]) => (
+        <a href={link('board', k)} class:list={{ active: Astro.url.searchParams.get('board') === k }}>
+          {v}
+        </a>
+      ))
+    }
+  </nav><div class="community-layout">
+    <section>
+      <form class="flex wrap-flex" action="/community">
+        <input type="hidden" name="board" value={Astro.url.searchParams.get('board') || ''} /><input
+          name="q"
+          class="field grow"
+          aria-label="커뮤니티 검색"
+          placeholder="제목이나 내용으로 찾아보세요"
+          value={Astro.url.searchParams.get('q') || ''}
+        /><select name="sort" aria-label="글 정렬"
+          ><option value="newest">최신순</option><option
+            value="popular"
+            selected={Astro.url.searchParams.get('sort') === 'popular'}>인기순</option
+          ></select
+        ><button class="button secondary" type="submit">검색</button>
+      </form>{r.items.map((p) => <PostRow post={p} />)}{
+        !r.total && (
+          <div class="community-empty">
+            <EmptyState>
+              <>
+                <h3>
+                  {Astro.url.searchParams.get('q') ? '검색 결과가 없습니다.' : '아직 등록된 글이 없습니다.'}
+                </h3>
+                <p>
+                  {Astro.url.searchParams.get('q')
+                    ? '검색어를 바꿔 보세요.'
+                    : '질문이나 제작 후기를 남겨주세요.'}
+                </p>
+                <a class="button secondary" href="/community/new">
+                  글 작성하기 ↗
+                </a>
+              </>
+            </EmptyState>
+          </div>
+        )
+      }<nav class="pagination" aria-label="게시글 페이지">
+        {
+          Array.from({ length: r.pages }, (_, i) => i + 1).map((p) => (
+            <a href={link('page', String(p))} class:list={{ active: r.page === p }}>
+              {p}
+            </a>
+          ))
+        }
+      </nav>
+    </section><aside>
+      <section class="meta-box">
+        <h3 style="margin-top:15px">제작 후기 작성</h3><p>
+          만든 기능, 사용한 도구, 실제 사용해 본 결과를 적어주세요.
+        </p><a class="small accent" href="/community/new?board=builds">제작 후기 작성 ↗</a>
+      </section><Newsletter />
+    </aside>
+  </div><a class="mobile-only mobile-compose" href="/community/new"
+    ><span aria-hidden="true">＋</span> 글쓰기</a
+  ></Base
+>

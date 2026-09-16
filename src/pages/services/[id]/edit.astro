@@ -1,0 +1,44 @@
+---
+import type { PageData } from '../../../contracts/services/[id]/edit';
+import Base from '../../../layouts/Base.astro';
+import ServiceEditor from '../../../components/ServiceEditor.astro';
+import EmptyState from '../../../components/EmptyState.astro';
+const { s, allowed } = Astro.locals.presentation.data as PageData;
+---
+
+<Base
+  title="SaaS 정보 수정"
+  pageKind="service-editor"
+  mobileTitle="SaaS 정보 수정"
+  mobileBack={'/services/' + Astro.params.id}
+  noindex
+>
+  <section class="service-form-wrap">
+    {
+      allowed ? (
+        <>
+          <>
+            <header class="page-head">
+              <>
+                <h1>SaaS 정보 수정</h1>
+                <p>기존 정보와 제작 가이드를 수정해 제안할 수 있습니다.</p>
+              </>
+            </header>
+            <ServiceEditor service={s} />
+          </>
+        </>
+      ) : (
+        <div class="section">
+          <EmptyState>
+            <>
+              <h1>이 서비스를 수정할 수 없어요.</h1>
+              <a class="button" href="/services">
+                SaaS 목록으로
+              </a>
+            </>
+          </EmptyState>
+        </div>
+      )
+    }
+  </section>
+</Base>

@@ -1,0 +1,179 @@
+---
+import type { PageData } from '../contracts/me';
+import EmptyState from '../components/EmptyState.astro';
+import BrandIntro from '../components/BrandIntro.astro';
+import ServiceCard from '../components/ServiceCard.astro';
+import Base from '../layouts/Base.astro';
+import PostRow from '../components/PostRow.astro';
+import { editStatuses } from '../lib/service-schema';
+import { getApp } from '../lib/apps';
+const { user, mine, comments, saved, voted, savedPosts, suggestions, services, serviceEdits, labels } = Astro
+  .locals.presentation.data as PageData;
+---
+
+<Base pageKind="account" title="내 활동" noindex
+  ><header class="page-head">
+    <BrandIntro
+      ><h1>내 활동</h1><p>{user.nickname}님의 저장 목록과 작성한 글, 등록한 SaaS입니다.</p></BrandIntro
+    >
+  </header><nav class="mobile-only mobile-account-links" aria-label="내 활동 바로가기">
+    <a href="#saved-tools">저장한 도구 <strong>{saved.length}</strong></a><a href="#my-posts"
+      >내가 쓴 글 <strong>{mine.length}</strong></a
+    ><a href="#my-services">등록한 SaaS <strong>{services.length}</strong></a><a href="#profile-settings"
+      >프로필 설정 ↗</a
+    >{user.role === 'admin' && <a href="/admin">관리자 화면 ↗</a>}
+  </nav><div class="profile-grid">
+    <aside>
+      <div class="meta-box" id="profile-settings">
+        <p class="small">{user.email}</p>
+        <p class="small">
+          {user.email_verified_at ? '이메일 확인 완료 ✓' : '아직 이메일 주소를 확인하지 않았어요.'}
+        </p>
+        {
+          !user.email_verified_at && (
+            <form data-api action="/api/auth/send-verification" method="post">
+              <input type="hidden" name="csrf" value={Astro.locals.csrf} />
+              <button type="submit" class="button secondary small">
+                확인 메일 받기
+              </button>
+              <p class="form-status" role="status" />
+            </form>
+          )
+        }
+        <h2>프로필</h2><form data-api action="/api/profile/update" method="post">
+          <input type="hidden" name="csrf" value={Astro.locals.csrf} /><label class="form-field"
+            ><span>닉네임</span><input
+              name="nickname"
+              value={user.nickname}
+              required
+              minlength="2"
+              maxlength="24"
+            /></label
+          ><label class="form-field"
+            ><span>소개</span><textarea aria-label="소개" name="bio" maxlength="500">{user.bio}</textarea
+            ></label
+          ><button type="submit" class="primary">프로필 저장</button><p class="form-status" role="status"></p>
+        </form><form data-api action="/api/auth/logout" method="post" style="margin-top:24px">
+          <input type="hidden" name="csrf" value={Astro.locals.csrf} /><button
+            class="text-button"
+            type="submit">로그아웃</button
+          >
+        </form>
+      </div><details class="meta-box">
+        <summary>계정 탈퇴</summary><p style="margin-top:15px">
+          작성한 글과 댓글의 내용, 등록한 SaaS, 대체 기록, 저장한 목록과 이메일 정보가 삭제돼요. 모든 기기에서
+          로그아웃됩니다.
+        </p><form
+          data-api
+          data-confirm="정말 탈퇴할까요? 계정 정보를 복구할 수 없습니다."
+          action="/api/profile/delete"
+          method="post"
+        >
+          <input type="hidden" name="csrf" value={Astro.locals.csrf} />{
+            user.password && (
+              <label class="form-field">
+                <>
+                  <span>현재 비밀번호</span>
+                  <input type="password" name="password" required autocomplete="current-password" />
+                </>
+              </label>
+            )
+          }<label class="form-field"
+            ><span>“탈퇴합니다”를 입력해 주세요</span><input
+              name="confirm"
+              placeholder="탈퇴합니다"
+              required
+            /></label
+          ><button class="button secondary danger" type="submit">계정 탈퇴</button><p
+            class="form-status"
+            role="status"
+          >
+          </p>
+        </form>
+      </details>
+    </aside><section>
+      <h2 id="saved-tools">저장한 도구 <span class="count-label">{saved.length}</span></h2><div class="tabs">
+        {saved.map((a) => a && <a href={'/' + a.slug}>{a.nameKo} ↗</a>)}
+      </div>{
+        !saved.length && (
+          <EmptyState compact>
+            <>
+              <p>나중에 만들고 싶은 도구를 저장해 보세요.</p>
+              <a href="/" class="button secondary">
+                도구 둘러보기
+              </a>
+            </>
+          </EmptyState>
+        )
+      }<div class="section">
+        <h2>대체 경험을 표시한 도구</h2>{
+          voted.map((v) => (
+            <a class="post-preview" href={'/' + v.slug}>
+              {getApp(v.slug)?.nameKo || '공개가 종료된 도구'}
+              <span class="muted small"> · {v.created_at.slice(0, 10)}</span>
+            </a>
+          ))
+        }{!voted.length && <p class="muted">아직 대체 경험을 표시한 도구가 없습니다.</p>}
+      </div><div class="section">
+        <div class="flex between wrap-flex">
+          <h2 id="my-services">등록한 SaaS</h2><a class="small accent" href="/services/new">SaaS 등록하기 +</a
+          >
+        </div>
+        <div class="service-account-list">{services.map((s) => <ServiceCard service={s} showStatus />)}</div>
+        {
+          !services.length && (
+            <p class="muted">추천하고 싶은 SaaS를 등록하면 검토 상태를 여기에서 확인할 수 있어요.</p>
+          )
+        }
+      </div><div class="section">
+        <h2 id="my-service-edits">SaaS 수정 제안</h2>
+        {
+          serviceEdits.map((e) => (
+            <a class="post-preview" href={'/services/edits/' + e.id}>
+              <>
+                <strong>{e.name}</strong>
+                <span class="badge">{editStatuses[e.status]}</span>
+                <p>{e.reason}</p>
+              </>
+            </a>
+          ))
+        }
+        {!serviceEdits.length && <p class="muted">등록한 수정 제안이 없습니다.</p>}
+      </div><div class="section">
+        <h2 id="my-posts">내가 쓴 글</h2>{mine.map((p) => <PostRow post={p} />)}{
+          !mine.length && (
+            <a href="/community/new" class="button secondary">
+              첫 이야기 남기기 ↗
+            </a>
+          )
+        }
+      </div><div class="section">
+        <h2>내 댓글</h2>{
+          comments.map((c) => (
+            <a class="post-preview" href={'/community/' + c.post_id + '#comment-' + c.id}>
+              <>
+                <strong>{c.title}</strong>
+                <p>{c.body}</p>
+              </>
+            </a>
+          ))
+        }{!comments.length && <p class="muted">아직 작성한 댓글이 없어요.</p>}
+      </div><div class="section">
+        <h2>저장한 글</h2>{savedPosts.map((p) => <PostRow post={p} />)}{
+          !savedPosts.length && <p class="muted">다시 읽고 싶은 글을 저장해 보세요.</p>
+        }
+      </div><div class="section">
+        <h2>내 제안</h2>{
+          suggestions.map((s) => (
+            <div class="post-preview">
+              <>
+                <strong>{s.title}</strong>
+                <p>{labels[s.status] || s.status}</p>
+              </>
+            </div>
+          ))
+        }{!suggestions.length && <p class="muted">도구 등록과 정보 수정 제안이 여기에 표시돼요.</p>}
+      </div>
+    </section>
+  </div></Base
+>
