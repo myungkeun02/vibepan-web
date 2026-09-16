@@ -7,7 +7,7 @@ function walk(dir) {
 }
 const files = walk('src');
 for (const file of files) {
-  if (!/\.(?:ts|mjs|astro)$/.test(file)) continue;
+  if (!/\.(?:tsx?|mjs|astro)$/.test(file)) continue;
   const text = readFileSync(file, 'utf8');
   if (
     /DATABASE_URL|SESSION_SECRET|GOOGLE_CLIENT_SECRET|GITHUB_CLIENT_SECRET|from ['"](?:pg|node:crypto)['"]/.test(
@@ -18,8 +18,8 @@ for (const file of files) {
 }
 const pkg = JSON.parse(readFileSync('package.json', 'utf8'));
 if (pkg.dependencies.pg || pkg.dependencies.nodemailer) throw new Error('Backend dependency in frontend');
-if (existsSync('dist/client'))
-  for (const file of walk('dist/client')) {
+if (existsSync('.next/static'))
+  for (const file of walk('.next/static')) {
     if (
       /\.(?:js|html)$/.test(file) &&
       /API_PROXY_SECRET|DATABASE_URL|SESSION_SECRET/.test(readFileSync(file, 'utf8'))
@@ -31,3 +31,5 @@ for (const file of files) {
     throw new Error('Private administrator implementation in service repository: ' + file);
 }
 console.log('Repository and browser boundaries verified.');
+
+if (files.some((file) => file.endsWith('.astro'))) throw new Error('Legacy UI template');

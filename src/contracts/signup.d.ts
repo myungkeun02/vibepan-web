@@ -1,4 +1,4 @@
-import type { APIContext } from 'astro';
+import type { RequestContext as APIContext } from '../lib/request-context';
 export declare function load(
   Astro: APIContext & {
     response: {
