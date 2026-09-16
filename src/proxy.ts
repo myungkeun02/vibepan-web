@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { withApi, apiRequest, cookieHeader } from './lib/api-client';
+import { uploadRewrite } from './lib/upload-rewrite';
 import type { RequestContext } from './lib/request-context';
 export async function proxy(request: NextRequest) {
   const path = request.nextUrl.pathname;
@@ -13,6 +14,8 @@ export async function proxy(request: NextRequest) {
         ? request.headers.get('x-vercel-forwarded-for')?.split(',')[0]?.trim() || 'unknown'
         : 'unknown';
   forwarded.set('x-vibepan-client-address', address);
+  if (process.env.VERCEL === '1' && request.method === 'POST' && path === '/api/upload')
+    return uploadRewrite(request, address);
   const isApi = /^\/(?:api|auth|media)(?:\/|$)/.test(path) || ['/robots.txt', '/sitemap.xml'].includes(path);
   if (isApi) return NextResponse.next({ request: { headers: forwarded } });
   if (path === '/admin')
