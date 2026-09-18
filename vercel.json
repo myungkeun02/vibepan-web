@@ -3,5 +3,40 @@
   "framework": "nextjs",
   "installCommand": "pnpm install --frozen-lockfile",
   "buildCommand": "pnpm build",
-  "regions": ["sin1"]
+  "regions": [
+    "sin1"
+  ],
+  "routes": [
+    {
+      "src": "^/api/upload$",
+      "methods": [
+        "POST"
+      ],
+      "dest": "${API_ORIGIN}/api/upload",
+      "env": [
+        "API_ORIGIN"
+      ],
+      "transforms": [
+        {
+          "type": "request.headers",
+          "op": "set",
+          "target": {
+            "key": "x-vibepan-api-key"
+          },
+          "args": "${API_PROXY_SECRET}",
+          "env": [
+            "API_PROXY_SECRET"
+          ]
+        },
+        {
+          "type": "request.headers",
+          "op": "set",
+          "target": {
+            "key": "x-vibepan-client-ip"
+          },
+          "args": "unknown"
+        }
+      ]
+    }
+  ]
 }

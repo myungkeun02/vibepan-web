@@ -62,3 +62,5 @@ DB는 초기에는 하나를 공유하고, 두 API의 DB 계정·권한은 실�
 Vercel 서버 환경변수에 `APP_ENV=production`, `SITE_URL`, `ADMIN_SITE_URL`, 이 프론트의 `FRONTEND_ORIGIN`, Railway의 `API_ORIGIN`, 해당 API의 `API_PROXY_SECRET`을 설정한다. 이 값에 `NEXT_PUBLIC_` 접두어를 붙이지 않는다. DB·OAuth·세션 키는 Railway에만 둔다. Preview 환경의 도메인은 운영 Origin과 다르므로 실제 로그인·쓰기 검증은 운영 도메인 전환 뒤 수행한다.
 
 첨부 요청은 Vercel의 외부 rewrite로 API에 전송하며 BFF에서 파일 본문을 읽지 않는다. API의 인증·CSRF·5MB 이미지 검사는 그대로 적용된다. 실제 Vercel 환경에서 최대 크기 업로드를 확인한 후 운영 도메인을 전환한다.
+
+첨부 경로는 `vercel.json`의 CDN 라우팅에서 Railway로 바로 전달한다. Next Proxy에서 외부 rewrite를 반환하는 방식도 Vercel 함수의 본문 제한을 받으므로 5MB 첨부에는 사용하지 않는다. API 주소와 전송 키는 라우팅의 환경변수 allowlist를 통해 서버에서만 적용되며 저장소에는 값이 없다. 이 경로의 IP 헤더는 사용자 입력을 덮어쓰고, 업로드 제한은 API에서 사용자별로 적용한다.
