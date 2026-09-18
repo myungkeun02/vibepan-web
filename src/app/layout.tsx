@@ -2,6 +2,7 @@ import '../styles/global.css';
 import '../styles/services.css';
 import '../styles/mobile.css';
 import '../styles/refresh.css';
+import '../styles/account-home.css';
 import type { ReactNode } from 'react';
 import type { Metadata, Viewport } from 'next';
 import { Suspense } from 'react';

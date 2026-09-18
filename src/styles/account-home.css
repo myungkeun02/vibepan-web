@@ -1,0 +1,630 @@
+/* Account activities and the two closing sections of the directory. */
+.account-heading {
+  margin: 36px 0 26px;
+  padding: 0;
+}
+.account-heading h1 {
+  font-size: 32px;
+  margin: 0 0 6px;
+}
+.account-heading p {
+  margin: 0;
+}
+.account-layout {
+  display: grid;
+  grid-template-columns: 268px minmax(0, 1fr);
+  gap: 32px;
+  align-items: start;
+}
+.account-profile {
+  padding: 22px;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  min-width: 0;
+}
+.account-person {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.account-person > div {
+  min-width: 0;
+}
+.account-person strong {
+  display: block;
+  font-size: 17px;
+  overflow-wrap: anywhere;
+}
+.account-person p {
+  margin: 3px 0 0;
+  color: var(--muted);
+  font-size: 12px;
+  overflow-wrap: anywhere;
+}
+.account-avatar {
+  width: 44px;
+  height: 44px;
+  flex-shrink: 0;
+  border-radius: 14px;
+  background: var(--accent-soft);
+  color: var(--text);
+  display: grid;
+  place-items: center;
+  font-size: 20px;
+  font-weight: 650;
+}
+.account-bio {
+  font-size: 13px;
+  margin: 18px 0 0;
+  color: var(--muted);
+  overflow-wrap: anywhere;
+  white-space: pre-line;
+}
+.account-shortcuts {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+  margin: 22px 0 18px;
+}
+.account-shortcuts a {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 5px;
+  min-height: 42px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  font-size: 13px;
+}
+.account-shortcuts svg {
+  width: 15px;
+  height: 15px;
+}
+.account-settings {
+  border-top: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+}
+.account-settings > summary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 13px 0;
+  font-size: 13px;
+  cursor: pointer;
+  list-style: none;
+}
+.account-settings > summary::-webkit-details-marker {
+  display: none;
+}
+.account-settings[open] > summary > span {
+  transform: rotate(180deg);
+}
+.account-settings-body {
+  padding: 0 0 18px;
+}
+.account-settings-body > form {
+  margin-top: 18px;
+}
+.account-settings-body button.primary {
+  width: 100%;
+}
+.account-withdraw {
+  border-top: 1px solid var(--line);
+  margin-top: 20px;
+  padding-top: 15px;
+  font-size: 12px;
+  color: var(--muted);
+}
+.account-withdraw > summary {
+  cursor: pointer;
+}
+.account-session {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  padding-top: 14px;
+  font-size: 12px;
+  color: var(--muted);
+}
+.account-session form {
+  margin: 0 0 0 auto;
+}
+.account-session button {
+  padding: 4px 0;
+  font-size: 12px;
+}
+.account-feed {
+  min-width: 0;
+  scroll-margin-top: 110px;
+}
+.activity-tabs {
+  display: flex;
+  gap: 6px;
+  overflow-x: auto;
+  overscroll-behavior-inline: contain;
+  scrollbar-width: thin;
+  border-bottom: 1px solid var(--line);
+  padding: 0 0 12px;
+}
+.activity-tabs a {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  min-height: 42px;
+  padding: 8px 12px;
+  border-radius: 9px;
+  white-space: nowrap;
+  flex-shrink: 0;
+  font-size: 14px;
+  color: var(--muted);
+}
+.activity-tabs a span {
+  font-size: 11px;
+  font-variant-numeric: tabular-nums;
+}
+.activity-tabs a[aria-current='page'] {
+  color: var(--text);
+  background: var(--accent-soft);
+  font-weight: 650;
+  box-shadow: inset 0 -2px var(--brand);
+}
+.activity-list-heading {
+  display: flex;
+  gap: 8px;
+  align-items: baseline;
+  padding: 21px 0 15px;
+}
+.activity-list-heading h2 {
+  margin: 0;
+  font-size: 17px;
+}
+.activity-list-heading > span {
+  font-size: 12px;
+  color: var(--muted);
+}
+.activity-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  overflow: hidden;
+}
+.activity-list > li + li {
+  border-top: 1px solid var(--line);
+}
+.activity-item {
+  position: relative;
+  display: block;
+  padding: 20px 52px 20px 22px;
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+.activity-item h3 {
+  margin: 8px 0 0;
+  font-size: 16px;
+  line-height: 1.5;
+  font-weight: 600;
+}
+.activity-item p {
+  margin: 5px 0 0;
+  font-size: 13px;
+  line-height: 1.65;
+  color: var(--muted);
+}
+.activity-item h3,
+.activity-item p {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  overflow: hidden;
+}
+.activity-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px 10px;
+  align-items: center;
+  color: var(--muted);
+  font-size: 11px;
+}
+.activity-meta time {
+  margin-left: auto;
+  font-variant-numeric: tabular-nums;
+}
+.activity-status {
+  padding: 1px 6px;
+  border-radius: 4px;
+  background: var(--raised);
+  color: var(--text);
+}
+.activity-arrow {
+  position: absolute;
+  right: 20px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--muted);
+}
+.activity-arrow svg {
+  width: 17px;
+  height: 17px;
+}
+a.activity-item:hover {
+  background: var(--accent-soft);
+  color: var(--text);
+}
+a.activity-item:focus-visible {
+  outline-offset: -3px;
+}
+.activity-empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  min-height: 260px;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: var(--surface);
+  padding: 32px 20px;
+  text-align: center;
+}
+.activity-empty > svg {
+  width: 32px;
+  height: 32px;
+  color: var(--muted);
+}
+.activity-empty h3 {
+  font-size: 16px;
+  font-weight: 500;
+  margin: 0;
+}
+.activity-empty .button {
+  gap: 10px;
+  font-size: 13px;
+}
+.activity-empty .button svg {
+  width: 16px;
+  height: 16px;
+}
+.activity-pagination {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+  font-size: 13px;
+  margin-top: 20px;
+}
+.activity-pagination a,
+.activity-pagination > span[aria-disabled] {
+  padding: 10px 14px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+}
+.activity-pagination > span {
+  color: var(--muted);
+}
+.activity-pagination > span[aria-disabled] {
+  opacity: 0.45;
+}
+.home-bottom {
+  display: grid;
+  grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr);
+  gap: 24px;
+  margin: 48px 0 0;
+  align-items: stretch;
+}
+.home-panel {
+  min-width: 0;
+  padding: 28px;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  background: var(--surface);
+}
+.home-panel-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+.home-panel-heading h2 {
+  margin: 0;
+  font-size: 20px;
+  line-height: 1.5;
+}
+.home-panel-heading > a {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  flex-shrink: 0;
+  font-size: 12px;
+  color: var(--muted);
+}
+.home-panel-heading svg {
+  width: 15px;
+  height: 15px;
+}
+.home-panel-description {
+  margin: 8px 0 0;
+  color: var(--muted);
+  font-size: 13px;
+  line-height: 1.7;
+  word-break: keep-all;
+  overflow-wrap: anywhere;
+}
+.home-reviews {
+  display: flex;
+  flex-direction: column;
+}
+.home-review-empty {
+  flex: 1;
+  display: grid;
+  grid-template-columns: 44px minmax(0, 1fr);
+  align-content: center;
+  align-items: center;
+  gap: 16px;
+  padding: 28px 0 4px;
+}
+.home-review-empty .mascot {
+  width: 44px;
+  height: 44px;
+}
+.home-review-empty h3 {
+  margin: 0;
+  font-size: 15px;
+  font-weight: 550;
+}
+.home-review-empty p {
+  margin: 4px 0 0;
+  color: var(--muted);
+  font-size: 13px;
+  word-break: keep-all;
+}
+.home-review-empty .button {
+  grid-column: 2;
+  justify-self: start;
+  gap: 10px;
+  font-size: 13px;
+  min-height: 42px;
+}
+.home-review-empty .button svg {
+  width: 16px;
+  height: 16px;
+}
+.home-review-list {
+  margin-top: 14px;
+}
+.home-review-item {
+  display: block;
+  position: relative;
+  padding: 14px 28px 14px 0;
+}
+.home-review-item + .home-review-item {
+  border-top: 1px solid var(--line);
+}
+.home-review-item h3 {
+  margin: 0;
+  font-size: 15px;
+  line-height: 1.5;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  overflow-wrap: anywhere;
+}
+.home-review-item p {
+  margin: 5px 0 0;
+  color: var(--muted);
+  font-size: 12px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+.home-review-item > svg {
+  position: absolute;
+  right: 0;
+  top: 20px;
+  width: 16px;
+  height: 16px;
+  color: var(--muted);
+}
+.home-bottom > .newsletter {
+  margin: 0;
+}
+.newsletter form {
+  margin-top: 24px;
+}
+.newsletter-email-label {
+  display: block;
+  margin-bottom: 8px;
+  font-size: 13px;
+}
+.newsletter-input-row {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 8px;
+}
+.newsletter-input-row input {
+  width: 100%;
+  min-height: 46px;
+  padding: 10px 12px;
+  background: var(--bg);
+  border: 1px solid var(--line);
+  color: var(--text);
+}
+.newsletter-input-row button {
+  padding: 10px 18px;
+  white-space: nowrap;
+  min-height: 46px;
+  font-size: 13px;
+}
+.newsletter .check-label {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  margin: 14px 0 0;
+  color: var(--muted);
+  font-size: 12px;
+  line-height: 1.7;
+}
+.newsletter .check-label input {
+  flex-shrink: 0;
+  margin: 4px 0 0;
+  width: 14px;
+  height: 14px;
+  accent-color: var(--brand);
+}
+.newsletter .form-status:empty,
+.account-settings .form-status:empty {
+  display: none;
+}
+[data-page='home'] .site-footer,
+[data-page='account'] .site-footer {
+  margin-top: 48px;
+}
+@media (max-width: 1000px) {
+  .account-layout {
+    grid-template-columns: 230px minmax(0, 1fr);
+    gap: 24px;
+  }
+  .account-profile {
+    padding: 18px;
+  }
+  .home-bottom {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 16px;
+  }
+  .home-review-empty {
+    padding: 28px 0 4px;
+  }
+}
+@media (max-width: 760px) {
+  .account-heading {
+    margin: 24px 0 18px;
+  }
+  .account-heading h1 {
+    font-size: 25px;
+  }
+  .account-heading p {
+    font-size: 13px;
+  }
+  .account-layout {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+  }
+  .account-profile,
+  .account-feed {
+    width: 100%;
+  }
+  .account-profile {
+    padding: 18px;
+    border-radius: 12px;
+  }
+  .account-bio {
+    display: none;
+  }
+  .account-shortcuts {
+    margin: 16px 0 12px;
+  }
+  .account-shortcuts a {
+    min-height: 44px;
+  }
+  .account-settings > summary {
+    min-height: 44px;
+    padding: 10px 0;
+  }
+  .account-session {
+    padding-top: 8px;
+  }
+  .account-session button {
+    min-height: 36px;
+  }
+  .account-feed {
+    scroll-margin-top: 74px;
+  }
+  .activity-tabs {
+    gap: 4px;
+    padding-bottom: 10px;
+  }
+  .activity-tabs a {
+    min-height: 44px;
+    padding: 9px 12px;
+  }
+  .activity-list-heading {
+    padding: 18px 0 12px;
+  }
+  .activity-item {
+    padding: 17px 38px 17px 16px;
+  }
+  .activity-item h3 {
+    font-size: 15px;
+  }
+  .activity-meta {
+    column-gap: 8px;
+  }
+  .activity-arrow {
+    right: 14px;
+  }
+  .activity-arrow svg {
+    width: 15px;
+    height: 15px;
+  }
+  .activity-empty {
+    min-height: 220px;
+  }
+  .home-bottom {
+    margin-top: 32px;
+    gap: 16px;
+  }
+  .home-panel {
+    padding: 22px 20px;
+    border-radius: 12px;
+  }
+  .home-panel-heading {
+    gap: 12px;
+  }
+  .home-panel-heading h2 {
+    font-size: 18px;
+  }
+  .home-panel-description {
+    font-size: 12px;
+  }
+  .home-review-empty {
+    gap: 14px;
+    grid-template-columns: 36px minmax(0, 1fr);
+  }
+  .home-review-empty .mascot {
+    width: 36px;
+    height: 36px;
+  }
+  .home-review-empty h3 {
+    font-size: 14px;
+  }
+  .home-review-empty p {
+    font-size: 12px;
+  }
+  .home-review-empty .button {
+    grid-column: 1 / -1;
+    justify-self: stretch;
+    justify-content: center;
+    margin-top: 2px;
+    min-height: 44px;
+  }
+  .newsletter-input-row {
+    gap: 7px;
+  }
+  .newsletter-input-row button {
+    padding-inline: 13px;
+  }
+  .newsletter .check-label {
+    font-size: 11px;
+  }
+  [data-page='home'] .site-footer,
+  [data-page='account'] .site-footer {
+    margin-top: 32px;
+  }
+}

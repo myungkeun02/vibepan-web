@@ -8,8 +8,6 @@ import type { PageData } from '../contracts/index';
 
 import Mascot from '../components/Mascot';
 
-import EmptyState from '../components/EmptyState';
-
 import Base from '../layouts/Base';
 
 import Directory from '../components/Directory';
@@ -22,7 +20,6 @@ import UiIcon from '../components/UiIcon';
 
 import { categories } from '../lib/apps';
 
-import { boards } from '../lib/config';
 export default async function Viewindexastro(props: Record<string, any> & { children?: ReactNode }) {
   const ctx = { ...(await getPageContext()), params: await (props.params || {}) };
 
@@ -102,36 +99,39 @@ export default async function Viewindexastro(props: Record<string, any> & { chil
         </section>
         <CatalogSummary />
         <Directory />
-        <div className={'home-bottom'}>
-          <section>
-            <div className={'flex between'}>
-              <h2>{'최근 제작 후기'}</h2>
-              <a className={'small muted'} href={'/community?board=builds'}>
-                {'후기 전체 보기'}
+        <div className="home-bottom">
+          <section className="home-panel home-reviews" aria-labelledby="recent-builds-title">
+            <header className="home-panel-heading">
+              <h2 id="recent-builds-title">최근 제작 후기</h2>
+              <a href="/community?board=builds" aria-label="후기 전체 보기">
+                전체 보기 <UiIcon name="arrow" />
               </a>
-            </div>
-            {recent.map((p, rowIndex2) => (
-              <a key={rowIndex2} className={'post-preview'} href={'/community/' + p.id}>
-                <>
-                  <span className={'eyebrow'}>{boards[p.board]}</span> <h3>{p.title}</h3>
-                  <p>
-                    {p.nickname || '탈퇴한 사용자'}
-                    {' · 댓글 '}
-                    {p.comments}
-                  </p>
-                </>
-              </a>
-            ))}
-            {!recent.length && (
-              <EmptyState compact={true}>
-                <>
-                  <h3>{'아직 등록된 제작 후기가 없습니다.'}</h3>
-                  <p>{'만든 기능과 사용한 도구, 어려웠던 점을 적어주세요.'}</p>
-                  <a href={'/community/new?board=builds'} className={'button secondary'}>
-                    {'\n                제작 후기 남기기 ↗\n              '}
+            </header>
+            <p className="home-panel-description">직접 만든 도구와 제작 과정을 살펴보세요.</p>
+            {recent.length ? (
+              <div className="home-review-list">
+                {recent.map((p) => (
+                  <a key={p.id} className="home-review-item" href={'/community/' + p.id}>
+                    <h3>{p.title}</h3>
+                    <p>
+                      {p.nickname || '탈퇴한 사용자'}
+                      <span>댓글 {p.comments}</span>
+                    </p>
+                    <UiIcon name="arrow" />
                   </a>
-                </>
-              </EmptyState>
+                ))}
+              </div>
+            ) : (
+              <div className="home-review-empty">
+                <Mascot size="small" />
+                <div>
+                  <h3>아직 제작 후기가 없어요.</h3>
+                  <p>만든 도구와 시행착오를 공유해 주세요.</p>
+                </div>
+                <a href="/community/new?board=builds" className="button secondary">
+                  제작 후기 남기기 <UiIcon name="arrow" />
+                </a>
+              </div>
             )}
           </section>
           <Newsletter />
