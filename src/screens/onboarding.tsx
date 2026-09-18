@@ -11,12 +11,12 @@ export default async function Viewonboardingastro(props: Record<string, any> & {
 
   return (
     <>
-      <Base title={'소셜 계정 가입 완료'} noindex={true}>
+      <Base title={'회원가입 마무리'} noindex={true}>
         <section className={'auth-panel'}>
           <BrandIntro>
             <h1>{'가입을 마무리해 주세요'}</h1>
             <p className={'muted'}>
-              {'\n        연결한 소셜 계정으로 가입합니다. 공개할 닉네임을 정해 주세요.\n      '}
+              {'\n        연결한 소셜 계정으로 가입합니다. 사용할 닉네임을 정해 주세요.\n      '}
             </p>
           </BrandIntro>
           <form data-api={''} method={'post'} action={'/api/auth/oauth-register'}>
@@ -39,7 +39,7 @@ export default async function Viewonboardingastro(props: Record<string, any> & {
               </span>
             </label>
             <button type={'submit'} className={'primary'}>
-              {'가입 완료 ↗'}
+              {'가입하기'}
             </button>
             <p role={'status'} className={'form-status'} />
           </form>
@@ -52,5 +52,5 @@ export default async function Viewonboardingastro(props: Record<string, any> & {
 export async function pageMetadata(props: Record<string, any>) {
   const ctx = { ...(await getPageContext()), params: await (props.params || {}) };
 
-  return createMetadata({ title: '소셜 계정 가입 완료', noindex: true }, ctx.url.pathname);
+  return createMetadata({ title: '회원가입 마무리', noindex: true }, ctx.url.pathname);
 }

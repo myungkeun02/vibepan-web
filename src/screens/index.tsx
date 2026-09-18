@@ -8,8 +8,6 @@ import type { PageData } from '../contracts/index';
 
 import Mascot from '../components/Mascot';
 
-import EmptyState from '../components/EmptyState';
-
 import Base from '../layouts/Base';
 
 import Directory from '../components/Directory';
@@ -22,7 +20,6 @@ import UiIcon from '../components/UiIcon';
 
 import { categories } from '../lib/apps';
 
-import { boards } from '../lib/config';
 export default async function Viewindexastro(props: Record<string, any> & { children?: ReactNode }) {
   const ctx = { ...(await getPageContext()), params: await (props.params || {}) };
 
@@ -40,7 +37,7 @@ export default async function Viewindexastro(props: Record<string, any> & { chil
             <div className={'desktop-only'}>
               <div className={'eyebrow'}>
                 <span className={'status-dot'} />
-                {' 도구별 기능 분석과 제작 가이드'}
+                {' SaaS 제작 가이드'}
               </div>
               <h1>
                 {'\n          이 도구,'}
@@ -48,9 +45,9 @@ export default async function Viewindexastro(props: Record<string, any> & { chil
                 <span className={'accent'}>{'직접 만들 수 있을까?'}</span>
               </h1>
               <p>
-                {'\n          직접 만들 수 있는 기능과 어려운 부분을 정리했습니다.'}
+                {'\n          직접 만들 수 있는 기능과 어려운 기능을 정리했어요.'}
                 <br />
-                {'도구를 고르고, AI에 입력할 제작 프롬프트를\n          확인하세요.\n        '}
+                {'필요한 도구를 골라 가이드와 프롬프트를 확인하세요.\n        '}
               </p>
             </div>
             <div className={'mobile-only mobile-home-intro'}>
@@ -77,8 +74,8 @@ export default async function Viewindexastro(props: Record<string, any> & { chil
             </div>
             <div style={styleObject('margin-top:17px')}>
               {[
-                ['yes', '대체 가능', '정해진 범위는 직접 만들 만해요'],
-                ['kinda', '일부 대체 가능', '기존 도구와 함께 써야 해요'],
+                ['yes', '대체 가능', '소개한 기능은 직접 만들 수 있어요'],
+                ['kinda', '일부 대체 가능', '필요한 기능 일부를 만들 수 있어요'],
                 ['no', '대체 어려움', '핵심 기능까지 만들기는 어려워요'],
               ].map(([v, en, ko], rowIndex1) => (
                 <div key={rowIndex1} className={'legend-row'}>
@@ -102,36 +99,39 @@ export default async function Viewindexastro(props: Record<string, any> & { chil
         </section>
         <CatalogSummary />
         <Directory />
-        <div className={'home-bottom'}>
-          <section>
-            <div className={'flex between'}>
-              <h2>{'최근 제작 후기'}</h2>
-              <a className={'small muted'} href={'/community?board=builds'}>
-                {'후기 전체 보기'}
+        <div className="home-bottom">
+          <section className="home-panel home-reviews" aria-labelledby="recent-builds-title">
+            <header className="home-panel-heading">
+              <h2 id="recent-builds-title">최근 제작 후기</h2>
+              <a href="/community?board=builds" aria-label="후기 전체 보기">
+                전체 보기 <UiIcon name="arrow" />
               </a>
-            </div>
-            {recent.map((p, rowIndex2) => (
-              <a key={rowIndex2} className={'post-preview'} href={'/community/' + p.id}>
-                <>
-                  <span className={'eyebrow'}>{boards[p.board]}</span> <h3>{p.title}</h3>
-                  <p>
-                    {p.nickname || '탈퇴한 사용자'}
-                    {' · 댓글 '}
-                    {p.comments}
-                  </p>
-                </>
-              </a>
-            ))}
-            {!recent.length && (
-              <EmptyState compact={true}>
-                <>
-                  <h3>{'아직 등록된 제작 후기가 없습니다.'}</h3>
-                  <p>{'만든 기능과 사용한 도구, 어려웠던 점을 적어주세요.'}</p>
-                  <a href={'/community/new?board=builds'} className={'button secondary'}>
-                    {'\n                제작 후기 남기기 ↗\n              '}
+            </header>
+            <p className="home-panel-description">직접 만든 도구와 제작 과정을 살펴보세요.</p>
+            {recent.length ? (
+              <div className="home-review-list">
+                {recent.map((p) => (
+                  <a key={p.id} className="home-review-item" href={'/community/' + p.id}>
+                    <h3>{p.title}</h3>
+                    <p>
+                      {p.nickname || '탈퇴한 사용자'}
+                      <span>댓글 {p.comments}</span>
+                    </p>
+                    <UiIcon name="arrow" />
                   </a>
-                </>
-              </EmptyState>
+                ))}
+              </div>
+            ) : (
+              <div className="home-review-empty">
+                <Mascot size="small" />
+                <div>
+                  <h3>아직 제작 후기가 없어요.</h3>
+                  <p>만든 도구와 시행착오를 공유해 주세요.</p>
+                </div>
+                <a href="/community/new?board=builds" className="button secondary">
+                  제작 후기 남기기 <UiIcon name="arrow" />
+                </a>
+              </div>
             )}
           </section>
           <Newsletter />

@@ -94,7 +94,7 @@ export default async function ViewBaseastro(props: Props & { children?: ReactNod
                 </>
               ) : (
                 <a className={'button secondary small'} href={'/login'}>
-                  {'\n                로그인 ↗\n              '}
+                  {'\n                로그인\n              '}
                 </a>
               )}
             </div>
@@ -112,7 +112,7 @@ export default async function ViewBaseastro(props: Props & { children?: ReactNod
                 {brand.name}
               </a>
               <div className={'flex wrap-flex'}>
-                <a href={'/rebuild-prompt'}>{'이 사이트를 만든 프롬프트 ↗'}</a>
+                <a href={'/rebuild-prompt'}>{'이 사이트를 만든 프롬프트'}</a>
                 <a href={'/services/new'}>{'SaaS 등록'}</a>
                 <a href={'/suggest'}>{'정보 수정 제안'}</a>
                 <a href={'/privacy'}>{'개인정보 처리 안내'}</a>
@@ -121,7 +121,7 @@ export default async function ViewBaseastro(props: Props & { children?: ReactNod
             </div>
             <p className={'footer-note'}>
               {
-                '\n          도구별 대체 가능성은 소개한 기능 범위를 기준으로 검토한 의견입니다. 외부 추적 도구 없이 이용 횟수만\n          자체 집계합니다. · 소스 코드: MIT\n        '
+                '\n          대체 가능성은 소개한 기능을 기준으로 판단했어요. 이용 횟수는 외부 추적 도구 없이 집계해요. · 소스 코드: MIT\n        '
               }
             </p>
           </div>

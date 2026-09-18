@@ -30,7 +30,7 @@ export default async function Viewindexastro(props: Record<string, any> & { chil
       <Base pageKind={'community'} title={'커뮤니티'} noindex={ctx.url.search.length > 0}>
         <header className={'mobile-only mobile-community-head'}>
           <h1>{'커뮤니티'}</h1>
-          <p>{'제작 후기, 질문, 프롬프트를 올리는 곳입니다.'}</p>
+          <p>{'만든 도구를 소개하고, 질문과 프롬프트를 나눠 보세요.'}</p>
         </header>
         <header className={'page-head desktop-only'}>
           <div className={'flex between wrap-flex'}>
@@ -39,7 +39,7 @@ export default async function Viewindexastro(props: Record<string, any> & { chil
               {'글쓰기 +'}
             </a>
           </div>
-          <p>{'제작 후기, 질문, 프롬프트를 올리는 곳입니다.'}</p>
+          <p>{'만든 도구를 소개하고, 질문과 프롬프트를 나눠 보세요.'}</p>
         </header>
         <nav className={'tabs'} aria-label={'게시판'}>
           <a href={'/community'} className={cn({ active: !ctx.url.searchParams.get('board') })}>
@@ -92,7 +92,7 @@ export default async function Viewindexastro(props: Record<string, any> & { chil
                         : '질문이나 제작 후기를 남겨주세요.'}
                     </p>
                     <a className={'button secondary'} href={'/community/new'}>
-                      {'\n                  글 작성하기 ↗\n                '}
+                      {'\n                  글쓰기\n                '}
                     </a>
                   </>
                 </EmptyState>
@@ -111,7 +111,7 @@ export default async function Viewindexastro(props: Record<string, any> & { chil
               <h3 style={styleObject('margin-top:15px')}>{'제작 후기 작성'}</h3>
               <p>{'\n          만든 기능, 사용한 도구, 실제 사용해 본 결과를 적어주세요.\n        '}</p>
               <a className={'small accent'} href={'/community/new?board=builds'}>
-                {'제작 후기 작성 ↗'}
+                {'후기 쓰기'}
               </a>
             </section>
             <Newsletter />

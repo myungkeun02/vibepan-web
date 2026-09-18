@@ -18,11 +18,11 @@ export default async function Viewnotificationsastro(props: Record<string, any> 
         <section className={'narrow'} style={styleObject('margin:auto')}>
           <header className={'page-head'}>
             <div className={'flex between'}>
-              <h1>{'새로운 소식'}</h1>
+              <h1>{'알림'}</h1>
               <form data-api={''} method={'post'} action={'/api/notifications/read'}>
                 <input name={'csrf'} type={'hidden'} defaultValue={ctx.locals.csrf} />
                 <button className={'button secondary small'} type={'submit'}>
-                  {'모두 읽음'}
+                  {'모두 읽음으로 표시'}
                 </button>
               </form>
             </div>
@@ -51,7 +51,7 @@ export default async function Viewnotificationsastro(props: Record<string, any> 
               <>
                 <h3>{'새로운 알림이 없어요.'}</h3> <p>{'댓글과 답글이 달리면 여기에서 알려드릴게요.'}</p>
                 <a href={'/community'} className={'button secondary'}>
-                  {'\n              이야기 둘러보기\n            '}
+                  {'\n              커뮤니티 둘러보기\n            '}
                 </a>
               </>
             </EmptyState>

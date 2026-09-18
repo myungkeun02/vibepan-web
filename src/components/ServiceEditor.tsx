@@ -166,7 +166,7 @@ export default async function ViewServiceEditorastro(props: Props & { children?:
             >
               {'이미지 제거'}
             </button>
-            <p className={'field-help'}>{'직접 첨부할 수 있는 PNG·JPEG·WebP 이미지, 최대 5MB'}</p>
+            <p className={'field-help'}>{'PNG·JPEG·WebP, 최대 5MB'}</p>
           </div>
           <noscript>
             <p className={'field-help'}>{'이미지 없이도 서비스를 등록할 수 있어요.'}</p>

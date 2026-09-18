@@ -59,7 +59,7 @@ export default async function ViewServiceGuideastro(props: Props & { children?: 
             <div className={'flex between wrap-flex'}>
               <>
                 <h3>{'제작 프롬프트'}</h3>
-                <button className={'button secondary'} data-copy={'#service-build-prompt'}>
+                <button className={'button secondary'} data-copy={'service-build-prompt'}>
                   {'\n              프롬프트 복사\n            '}
                 </button>
               </>

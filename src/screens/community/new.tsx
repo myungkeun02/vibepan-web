@@ -20,7 +20,7 @@ export default async function Viewnewastro(props: Record<string, any> & { childr
       >
         <header className={'page-head'}>
           <h1 style={styleObject('margin-top:12px')}>{'글쓰기'}</h1>
-          <p>{'작은 시도도 누군가에겐 좋은 출발점이 됩니다.'}</p>
+          <p>{'만든 도구나 궁금한 점을 공유해 주세요.'}</p>
         </header>
         <PostEditor />
       </Base>

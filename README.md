@@ -54,3 +54,11 @@ DB는 초기에는 하나를 공유하고, 두 API의 DB 계정·권한은 실�
 프론트의 `src/contracts`는 대응하는 백엔드 페이지 조회 응답의 타입 사본이다. 백엔드의 `src/views`는 화면에 필요한 데이터를 조회하며, SQL과 접근 권한 검사는 백엔드에서 수행한다. 타입 사본만으로 런타임 호환성을 보장하지 않으므로 변경 시 통합 검사를 함께 통과시킨다. 공통 데이터 타입과 순수 표시 함수는 초기 분리 시점의 사본으로 보관하며, 변경 시 대응 저장소를 함께 갱신한다. API 세부 버전과 배포 조합은 관리자 API의 통합 검사 설정에서 관리한다.
 
 기존 공개 저장소를 보존하므로 이미 공개된 과거 관리자 코드나 커밋 작성자 이메일은 과거 이력에 남는다. 새 비공개 저장소는 과거 공개본을 소급하여 비공개로 만들지 않는다.
+
+## Vercel 배포 설정
+
+`vercel.json`은 Next.js 기본 배포, Node 22, pnpm 잠금 파일과 Singapore(`sin1`) 실행 위치를 사용한다. `.vercelignore`는 로컬 키와 검증 자료를 배포에서 제외한다. Vercel 배포는 `server.mjs`를 사용하지 않는다.
+
+Vercel 서버 환경변수에 `APP_ENV=production`, `SITE_URL`, `ADMIN_SITE_URL`, 이 프론트의 `FRONTEND_ORIGIN`, Railway의 `API_ORIGIN`, 해당 API의 `API_PROXY_SECRET`을 설정한다. 이 값에 `NEXT_PUBLIC_` 접두어를 붙이지 않는다. DB·OAuth·세션 키는 Railway에만 둔다. Preview 환경의 도메인은 운영 Origin과 다르므로 실제 로그인·쓰기 검증은 운영 도메인 전환 뒤 수행한다.
+
+첨부 요청은 Vercel의 외부 rewrite로 API에 전송하며 BFF에서 파일 본문을 읽지 않는다. API의 인증·CSRF·5MB 이미지 검사는 그대로 적용된다. 실제 Vercel 환경에서 최대 크기 업로드를 확인한 후 운영 도메인을 전환한다.
