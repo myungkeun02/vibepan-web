@@ -9,6 +9,12 @@ export function enhance(navigate: (url: string, push?: boolean) => void) {
   document.querySelectorAll<HTMLDialogElement>('.mobile-sheet[open]').forEach((sheet) => sheet.close());
   function iconFallback(img: HTMLImageElement) {
     if (!img.hasAttribute('data-tool-icon-image')) return;
+    const catalogIcon = img.dataset.catalogIcon;
+    if (catalogIcon) {
+      delete img.dataset.catalogIcon;
+      img.src = catalogIcon;
+      return;
+    }
     img.hidden = true;
     img.parentElement?.classList.remove('has-image');
     img.parentElement?.querySelector('[data-tool-icon-fallback]')?.removeAttribute('hidden');
@@ -297,8 +303,10 @@ export function enhance(navigate: (url: string, push?: boolean) => void) {
     if (!form || form.dataset.uploading === 'true') return;
     form.querySelector<HTMLInputElement>('input[name=image]')!.value = '';
     const preview = form.querySelector<HTMLImageElement>('[data-service-image-preview]')!;
-    preview.hidden = true;
-    preview.removeAttribute('src');
+    const catalogIcon = preview.dataset.catalogIcon;
+    preview.hidden = !catalogIcon;
+    if (catalogIcon) preview.src = catalogIcon;
+    else preview.removeAttribute('src');
     button!.hidden = true;
   });
   listen(document, 'change', async (event: any) => {

@@ -9,7 +9,8 @@ import icons from '../../data/icons.json';
 export default async function ViewToolIconastro(props: Props & { children?: ReactNode }) {
   const { app, imageUrl } = props;
 
-  const icon = imageUrl ? { src: imageUrl } : (icons as Record<string, { src?: string | null }>)[app.slug];
+  const catalogSrc = (icons as Record<string, { src?: string | null }>)[app.slug]?.src;
+  const icon = { src: imageUrl || catalogSrc };
   return (
     <>
       <span
@@ -20,6 +21,7 @@ export default async function ViewToolIconastro(props: Props & { children?: Reac
         {icon?.src && (
           <img
             data-tool-icon-image={''}
+            data-catalog-icon={imageUrl && catalogSrc ? catalogSrc : undefined}
             src={icon.src}
             alt={''}
             width={'96'}

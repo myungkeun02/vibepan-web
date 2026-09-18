@@ -13,7 +13,8 @@
     "start": "node --env-file-if-exists=.env server.mjs",
     "check": "next typegen && tsc --noEmit",
     "test": "vitest run",
-    "boundaries": "node scripts/check-boundaries.mjs"
+    "boundaries": "node scripts/check-boundaries.mjs",
+    "icons:fetch": "node scripts/fetch-icons.mjs"
   },
   "dependencies": {
     "@fontsource-variable/jetbrains-mono": "^5.2.0",
@@ -37,7 +38,9 @@
     "@types/node": "^22.0.0",
     "@types/react": "^19.0.0",
     "@types/react-dom": "^19.0.0",
-    "esbuild": "^0.25.0"
+    "esbuild": "^0.25.0",
+    "sharp": "^0.35.4",
+    "icojs": "1.0.1"
   },
   "pnpm": {
     "onlyBuiltDependencies": [
