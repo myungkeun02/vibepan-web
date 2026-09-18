@@ -12,6 +12,7 @@ import Mascot from '../components/Mascot';
 import Base from '../layouts/Base';
 
 import { related, categoryName, priceLabel } from '../lib/apps';
+import { formatPrice } from '../lib/pricing';
 
 import { verdicts, absolute, boards } from '../lib/config';
 
@@ -318,14 +319,32 @@ export default async function Viewslugastro(props: Record<string, any> & { child
                                 ? '미국 달러 (USD)'
                                 : a.pricing.currency === 'KRW'
                                   ? '한국 원 (KRW)'
-                                  : a.pricing.currency}
+                                  : a.pricing.currency === 'EUR'
+                                    ? '유로 (EUR)'
+                                    : a.pricing.currency}
                             </dd>
-                            <dt>{'월간 결제 요금'}</dt>
-                            <dd>
-                              {a.pricing.monthlyNative === null ? '확인 필요' : a.pricing.monthlyNative}
-                            </dd>
-                            <dt>{'연간 결제 시 월 환산액'}</dt>
-                            <dd>{a.pricing.annualMonthlyNative ?? '확인 필요'}</dd>
+                            {a.pricing.monthlyNative !== null && a.pricing.billing !== 'free' && (
+                              <>
+                                <dt>월간 결제</dt>
+                                <dd>
+                                  {formatPrice(a.pricing.monthlyNative, a.pricing.currency)} / 월
+                                  {a.pricing.perSeat ? ' · 1인당' : ''}
+                                </dd>
+                              </>
+                            )}
+                            {a.pricing.annualMonthlyNative !== null && (
+                              <>
+                                <dt>
+                                  {a.pricing.billing === 'annual-monthly'
+                                    ? '연 약정 · 매월 청구'
+                                    : '연 결제 · 월 환산'}
+                                </dt>
+                                <dd>
+                                  {formatPrice(a.pricing.annualMonthlyNative, a.pricing.currency)} / 월
+                                  {a.pricing.perSeat ? ' · 1인당' : ''}
+                                </dd>
+                              </>
+                            )}
                             <dt>{'이용 인원 기준'}</dt>
                             <dd>
                               {a.pricing.perSeat
@@ -339,14 +358,14 @@ export default async function Viewslugastro(props: Record<string, any> & { child
                                 {'\n                            공식 안내 ↗\n                          '}
                               </a>
                             </dd>
-                            <dt>{'가격 확인 여부'}</dt>
+                            <dt>{'가격 확인'}</dt>
                             <dd>{a.pricing.source.status === 'verified' ? '확인 완료' : '가격 확인 필요'}</dd>
                             <dt>{'제작 난이도'}</dt> <dd>{a.difficulty}</dd>
                           </>
                         </dl>
                         {a.pricing.exchange && (
                           <p style={styleObject('margin:16px 0 0')}>
-                            {'\n                        환산: 1 '}
+                            {'참고 환율: 1 '}
                             {a.pricing.currency}
                             {' = '}
                             {a.pricing.exchange.rate.toLocaleString()}

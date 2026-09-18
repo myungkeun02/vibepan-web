@@ -31,7 +31,9 @@ export declare function load(
               plan: string;
               perSeat: boolean;
               minimumSeats: number;
-              billing: 'unknown' | 'free' | 'one-time' | 'monthly' | 'annual';
+              billing: 'unknown' | 'free' | 'one-time' | 'monthly' | 'annual' | 'annual-monthly' | 'prepaid';
+              quoteOnly?: boolean;
+              periodDays?: number;
               monthlyNative: number | null;
               annualMonthlyNative: number | null;
               oneTimeNative: number | null;

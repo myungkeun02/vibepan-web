@@ -16,6 +16,7 @@ import PostRow from '../../components/PostRow';
 import { servicePricing, serviceStatuses } from '../../lib/service-schema';
 
 import { categoryName } from '../../lib/apps';
+import ToolIcon from '../../components/ToolIcon';
 export default async function Viewidastro(props: Record<string, any> & { children?: ReactNode }) {
   const ctx = { ...(await getPageContext()), params: await (props.params || {}) };
 
@@ -47,7 +48,14 @@ export default async function Viewidastro(props: Record<string, any> & { childre
             )}
             <header className={'page-head'}>
               <>
-                <div className={'eyebrow'}>{categoryName(s.category)}</div> <h1>{s.name}</h1>
+                <div className={'eyebrow'}>{categoryName(s.category)}</div>
+                <div className={'flex'}>
+                  <ToolIcon
+                    app={{ slug: s.catalog_slug || s.id, name: s.name }}
+                    imageUrl={s.image_id ? '/media/' + s.image_id : undefined}
+                  />
+                  <h1>{s.name}</h1>
+                </div>
                 {(s.status === 'published' || owner) && (
                   <a className={'small accent'} href={'/services/' + s.id + '/edit'}>
                     {'\n                정보 수정\n              '}

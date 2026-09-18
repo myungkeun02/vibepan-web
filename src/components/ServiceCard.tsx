@@ -6,6 +6,7 @@ import type { ReactNode } from 'react';
 import { cn, styleObject, Select } from '../lib/jsx';
 
 import { categoryName } from '../lib/apps';
+import ToolIcon from './ToolIcon';
 
 import { servicePricing, serviceStatuses } from '../lib/service-schema';
 
@@ -16,9 +17,10 @@ export default async function ViewServiceCardastro(props: Props & { children?: R
     <>
       <a className={'service-card'} href={serviceHref(s)}>
         <div className={'service-card-top'}>
-          <span className={'service-initial'} aria-hidden={'true'}>
-            {s.name.slice(0, 1)}
-          </span>
+          <ToolIcon
+            app={{ slug: s.catalog_slug || s.id, name: s.name }}
+            imageUrl={s.image_id ? '/media/' + s.image_id : undefined}
+          />
           <div>
             <h3>{s.name}</h3>
             <span className={'small muted'}>

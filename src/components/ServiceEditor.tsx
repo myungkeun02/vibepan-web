@@ -10,6 +10,7 @@ import { categories } from '../lib/apps';
 import { servicePricing } from '../lib/service-schema';
 
 import type { Service } from '../lib/services';
+import icons from '../../data/icons.json';
 export default async function ViewServiceEditorastro(props: Props & { children?: ReactNode }) {
   const ctx = await getPageContext();
 
@@ -18,6 +19,10 @@ export default async function ViewServiceEditorastro(props: Props & { children?:
   const proposing = s?.status === 'published';
 
   const g = s?.guide;
+  const catalogIcon = s?.catalog_slug
+    ? (icons as Record<string, { src?: string }>)[s.catalog_slug]?.src
+    : undefined;
+  const previewSrc = s?.image_id ? '/media/' + s.image_id : catalogIcon;
   return (
     <>
       <form
@@ -143,9 +148,10 @@ export default async function ViewServiceEditorastro(props: Props & { children?:
           <img
             className={'service-image-preview'}
             data-service-image-preview={''}
-            src={s?.image_id ? '/media/' + s.image_id : undefined}
-            alt={'첨부한 서비스 이미지'}
-            hidden={!s?.image_id}
+            src={previewSrc}
+            data-catalog-icon={catalogIcon}
+            alt={'서비스 이미지'}
+            hidden={!previewSrc}
           />
           <div data-service-upload-controls={''} hidden={true}>
             <label className={'button secondary'}>
