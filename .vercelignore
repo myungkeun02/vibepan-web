@@ -1,0 +1,12 @@
+.git
+.env*
+.data
+data/private
+data/test
+node_modules
+.next
+test
+test-results
+playwright-report
+docs
+*.tsbuildinfo
