@@ -73,7 +73,7 @@ export default async function MyAccount() {
                 </label>
                 <label className="form-field">
                   <span>소개</span>
-                  <textarea name="bio" maxLength={500} rows={3} defaultValue={user.bio} />
+                  <textarea aria-label="소개" name="bio" maxLength={500} rows={3} defaultValue={user.bio} />
                 </label>
                 <button type="submit" className="primary">
                   프로필 저장
