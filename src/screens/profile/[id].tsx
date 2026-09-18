@@ -27,13 +27,13 @@ export default async function Viewidastro(props: Record<string, any> & { childre
         </section>
         {u && (
           <section className={'narrow'}>
-            <h2>{'공유한 이야기'}</h2>
+            <h2>{'작성한 글'}</h2>
             {items.map((p, rowIndex1) => (
               <PostRow key={rowIndex1} post={p} />
             ))}
             {!items.length && (
               <EmptyState compact={true}>
-                <p>{'아직 공개한 이야기가 없어요.'}</p>
+                <p>{'아직 작성한 글이 없어요.'}</p>
               </EmptyState>
             )}
           </section>

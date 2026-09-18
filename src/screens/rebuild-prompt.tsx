@@ -14,22 +14,21 @@ export default async function Viewrebuildpromptastro(props: Record<string, any> 
     <>
       <Base title={'이 사이트를 만든 프롬프트'}>
         <header className={'page-head'}>
-          <div className={'eyebrow'}>{'이 사이트의 시작'}</div>
-          <h1 style={styleObject('margin-top:15px')}>{'\n      이 사이트도, 여기서 시작했어요.\n    '}</h1>
+          <h1 style={styleObject('margin-top:15px')}>{'\n      이 사이트를 만든 프롬프트\n    '}</h1>
           <p>
             {
-              '\n      원본 서비스의 첫 제작 프롬프트를 출발점으로, 한국어 도구 목록과 회원가입·커뮤니티 기능을 더했어요.\n    '
+              '\n      원본 서비스의 프롬프트를 참고해 한국어 도구 목록, 회원가입, 커뮤니티를 만들었어요.\n    '
             }
           </p>
         </header>
         <p className={'muted'}>
           {
-            '\n    아래는 이 사이트를 만들 때 실제로 사용한 요청문 전체예요. 기존 설계서를 함께 참고했고, 구현 과정에서\n    검증과 수정을 반복했습니다. 한 번 실행하면 같은 결과를 보장하는 프롬프트는 아닙니다.\n  '
+            '\n    실제로 사용한 프롬프트를 공개합니다. 기존 설계서를 함께 참고했고, 구현하면서 여러 차례 테스트하고 수정했어요.\n    같은 프롬프트를 사용해도 결과는 달라질 수 있어요.\n  '
           }
         </p>
         <div className={'flex wrap-flex'}>
           <a className={'button secondary'} href={'/prompts/korean-rebuild.txt'} download={true}>
-            {'제작 요청문 내려받기'}
+            {'프롬프트 다운로드'}
           </a>
           <a
             className={'button secondary'}
@@ -40,11 +39,11 @@ export default async function Viewrebuildpromptastro(props: Record<string, any> 
             {'원본 소스 · MIT ↗'}
           </a>
           <button className={'button secondary'} data-copy={'rebuild-prompt'}>
-            {'제작 요청문 복사'}
+            {'프롬프트 복사'}
           </button>
         </div>
         <details className={'section'}>
-          <summary>{'한국어 서비스 제작 요청문 전체'}</summary>
+          <summary>{'전체 프롬프트 보기'}</summary>
           <div className={'prompt-block'} style={styleObject('margin-top:20px')}>
             <div className={'prompt-code'}>
               <pre id={'rebuild-prompt'}>{prompt}</pre>
@@ -52,7 +51,7 @@ export default async function Viewrebuildpromptastro(props: Record<string, any> 
           </div>
         </details>
         <section className={'section'}>
-          <h2>{'출발점이 된 원본 프롬프트'}</h2>
+          <h2>{'참고한 원본 프롬프트'}</h2>
           <div className={'prompt-block'}>
             <div className={'prompt-code'}>
               <pre>{original}</pre>

@@ -19,7 +19,7 @@ export default async function Viewsignupastro(props: Record<string, any> & { chi
           <BrandIntro>
             <h1>{'회원가입'}</h1>
             <p className={'muted'}>
-              {'\n        가입하면 도구 저장, SaaS 등록, 글쓰기를 이용할 수 있습니다.\n      '}
+              {'\n        도구를 저장하고, SaaS를 등록하거나 글을 쓸 수 있어요.\n      '}
             </p>
           </BrandIntro>
           <form data-api={''} action={'/api/auth/register'} method={'post'}>
@@ -70,13 +70,13 @@ export default async function Viewsignupastro(props: Record<string, any> & { chi
               {'업데이트 소식을 이메일로 받아볼게요. (선택)'}
             </label>
             <button type={'submit'} className={'primary'}>
-              {'가입하기 ↗'}
+              {'가입하기'}
             </button>
             <p className={'form-status'} role={'status'} />
           </form>
           <div className={'auth-links'}>
             <span className={'muted'}>{'이미 계정이 있나요?'}</span>
-            <a href={'/login?returnTo=' + encodeURIComponent(returnTo)}>{'로그인 ↗'}</a>
+            <a href={'/login?returnTo=' + encodeURIComponent(returnTo)}>{'로그인'}</a>
           </div>
         </section>
       </Base>

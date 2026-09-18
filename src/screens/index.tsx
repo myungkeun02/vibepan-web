@@ -37,7 +37,7 @@ export default async function Viewindexastro(props: Record<string, any> & { chil
             <div className={'desktop-only'}>
               <div className={'eyebrow'}>
                 <span className={'status-dot'} />
-                {' 도구별 기능 분석과 제작 가이드'}
+                {' SaaS 제작 가이드'}
               </div>
               <h1>
                 {'\n          이 도구,'}
@@ -45,9 +45,9 @@ export default async function Viewindexastro(props: Record<string, any> & { chil
                 <span className={'accent'}>{'직접 만들 수 있을까?'}</span>
               </h1>
               <p>
-                {'\n          직접 만들 수 있는 기능과 어려운 부분을 정리했습니다.'}
+                {'\n          직접 만들 수 있는 기능과 어려운 기능을 정리했어요.'}
                 <br />
-                {'도구를 고르고, AI에 입력할 제작 프롬프트를\n          확인하세요.\n        '}
+                {'필요한 도구를 골라 가이드와 프롬프트를 확인하세요.\n        '}
               </p>
             </div>
             <div className={'mobile-only mobile-home-intro'}>
@@ -74,8 +74,8 @@ export default async function Viewindexastro(props: Record<string, any> & { chil
             </div>
             <div style={styleObject('margin-top:17px')}>
               {[
-                ['yes', '대체 가능', '정해진 범위는 직접 만들 만해요'],
-                ['kinda', '일부 대체 가능', '기존 도구와 함께 써야 해요'],
+                ['yes', '대체 가능', '소개한 기능은 직접 만들 수 있어요'],
+                ['kinda', '일부 대체 가능', '필요한 기능 일부를 만들 수 있어요'],
                 ['no', '대체 어려움', '핵심 기능까지 만들기는 어려워요'],
               ].map(([v, en, ko], rowIndex1) => (
                 <div key={rowIndex1} className={'legend-row'}>

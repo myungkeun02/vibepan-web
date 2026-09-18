@@ -24,14 +24,14 @@ export default async function Viewstatsastro(props: Record<string, any> & { chil
         <header className={'page-head'}>
           <BrandIntro>
             <h1>{'등록 현황'}</h1>
-            <p>{'현재 공개된 SaaS, 제작 가이드, 후기입니다.'}</p>
+            <p>{'공개된 SaaS와 제작 가이드, 후기를 모았어요.'}</p>
           </BrandIntro>
         </header>
         <CatalogSummary counts={t} />
         <p className={'muted small'}>{'검토 중이거나 숨김·삭제된 항목은 포함하지 않습니다.'}</p>
         <section className={'section'}>
           <div className={'flex between wrap-flex'}>
-            <h2>{'최근 등록 SaaS'}</h2>
+            <h2>{'최근 등록된 SaaS'}</h2>
             <a href={'/#directory'} className={'small'}>
               {'전체 보기'}
             </a>

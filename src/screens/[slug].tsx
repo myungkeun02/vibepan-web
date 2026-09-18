@@ -21,6 +21,8 @@ export default async function Viewslugastro(props: Record<string, any> & { child
 
   const { service, a, v, voted, bookmarked, count, builds, jsonld } = ctx.locals.presentation
     .data as PageData;
+  const description = service?.description?.trim();
+  const repeatsGuide = description === `${a?.scope}\n\n${a?.verdictReason}`.trim();
   return (
     <>
       <Base
@@ -67,9 +69,11 @@ export default async function Viewslugastro(props: Record<string, any> & { child
                   </div>
                 </>
               </header>
-              <p className={'service-description muted'} data-service-description={''}>
-                {service?.description}
-              </p>
+              {description && !repeatsGuide && (
+                <p className={'service-description muted'} data-service-description={''}>
+                  {description}
+                </p>
+              )}
               <div className={'mobile-only mobile-tool-glance'}>
                 <>
                   <span>{categoryName(a.category)}</span> <strong>{priceLabel(a)}</strong>
@@ -77,10 +81,10 @@ export default async function Viewslugastro(props: Record<string, any> & { child
               </div>
               <nav className={'mobile-only mobile-detail-tabs'} aria-label={'도구 상세 메뉴'}>
                 <a href={'#tool-overview'} data-detail-view={'overview'}>
-                  {'\n              가능한 범위\n            '}
+                  {'\n              제작 가이드\n            '}
                 </a>
                 <a href={'#tool-prompt'} data-detail-view={'prompt'}>
-                  {'\n              제작 요청문\n            '}
+                  {'\n              프롬프트\n            '}
                 </a>
                 <a href={'#tool-reference'} data-detail-view={'reference'}>
                   {'\n              참고 정보\n            '}
@@ -102,7 +106,7 @@ export default async function Viewslugastro(props: Record<string, any> & { child
                           <p>{a.verdictReason}</p>
                           <div className={'scope'}>
                             <>
-                              <small className={'muted'}>{'직접 만들어볼 범위'}</small> <br />
+                              <small className={'muted'}>{'제작 범위'}</small> <br />
                             </>
                             {a.scope}
                           </div>
@@ -112,21 +116,19 @@ export default async function Viewslugastro(props: Record<string, any> & { child
                         <>
                           <div className={'flex between wrap-flex'}>
                             <>
-                              <h2>{'AI에게 이렇게 요청해 보세요'}</h2>
+                              <h2>{'프롬프트'}</h2>
                               <span className={'badge'}>
                                 {'v'}
                                 {a.promptVersion}
-                                {' · 검토한 초안'}
+                                {' · 초안'}
                               </span>
                             </>
                           </div>
                           <p className={'muted small'}>
                             {a.verdict === 'no'
-                              ? '아래 요청문은 핵심 기능 일부를 보조하는 작은 도구를 만드는 용도예요.'
-                              : '아래 내용을 복사해 AI 코딩 도구에 붙여 넣어 보세요.'}
-                            {
-                              '\n                        아직 이 요청문으로 만든 결과물은 검증하지 않았어요.\n                      '
-                            }
+                              ? '핵심 기능 중 일부만 구현하는 프롬프트예요.'
+                              : '사용할 AI 코딩 도구에 맞춰 복사하고 붙여 넣으세요.'}
+                            {' 이 프롬프트로 만든 앱의 동작은 아직 확인하지 않았어요.'}
                           </p>
                           <div className={'prompt-block'}>
                             <>
@@ -134,7 +136,7 @@ export default async function Viewslugastro(props: Record<string, any> & { child
                                 <>
                                   <span className={'mono'}>
                                     {a.nameKo}
-                                    {' 제작 요청문'}
+                                    {' 프롬프트'}
                                   </span>
                                   <div className={'prompt-buttons'}>
                                     {[
@@ -149,7 +151,7 @@ export default async function Viewslugastro(props: Record<string, any> & { child
                                         data-slug={a.slug}
                                       >
                                         {label}
-                                        {'용 복사 ↗\n                                  '}
+                                        {'용 복사\n                                  '}
                                       </button>
                                     ))}
                                   </div>
@@ -170,7 +172,7 @@ export default async function Viewslugastro(props: Record<string, any> & { child
                       </section>
                       <section className={'section'} id={'tool-features'} data-mobile-panel={'overview'}>
                         <>
-                          <h2>{'직접 만들어볼 기능'}</h2>
+                          <h2>{'만들 수 있는 기능'}</h2>
                           <ul className={'fact-list'}>
                             {a.features.map((f, rowIndex2) => (
                               <li key={rowIndex2}>{f}</li>
@@ -184,7 +186,7 @@ export default async function Viewslugastro(props: Record<string, any> & { child
                         data-mobile-panel={'overview'}
                       >
                         <>
-                          <h2>{'직접 만들기 어려운 기능'}</h2>
+                          <h2>{'만들기 어려운 기능'}</h2>
                           <ul className={'fact-list'}>
                             {a.whatYouLose.map((f, rowIndex3) => (
                               <li key={rowIndex3}>{f}</li>
@@ -202,7 +204,7 @@ export default async function Viewslugastro(props: Record<string, any> & { child
                         id={'tool-reference'}
                         data-mobile-panel={'reference'}
                       >
-                        <h2>{'비교할 도구'}</h2>
+                        <h2>{'함께 살펴볼 도구'}</h2>
                         {a.priorArt.length ? (
                           <ul>
                             {a.priorArt.map((p, rowIndex4) => (
@@ -232,7 +234,7 @@ export default async function Viewslugastro(props: Record<string, any> & { child
                           </ul>
                         ) : (
                           <p className={'muted'}>
-                            {'\n                        아직 소개할 대안을 확인하지 못했어요.'}
+                            {'\n                        아직 등록된 대안이 없어요. '}
                             <a href={'/services/' + service!.id + '/edit'}>{'대안을 제안해 주세요 ↗'}</a>
                           </p>
                         )}
@@ -253,7 +255,7 @@ export default async function Viewslugastro(props: Record<string, any> & { child
                               {' 제작 후기'}
                             </h2>
                             <a className={'small'} href={'/community/new?board=builds&tool=' + a.slug}>
-                              {'\n                          글쓰기 ↗\n                        '}
+                              {'\n                          후기 쓰기\n                        '}
                             </a>
                           </>
                         </div>
@@ -270,7 +272,7 @@ export default async function Viewslugastro(props: Record<string, any> & { child
                           ))
                         ) : (
                           <EmptyState compact={true}>
-                            <p>{'아직 이 도구의 제작 후기가 없습니다.'}</p>
+                            <p>{'아직 이 도구를 만든 후기가 없어요.'}</p>
                           </EmptyState>
                         )}
                       </section>
@@ -281,7 +283,7 @@ export default async function Viewslugastro(props: Record<string, any> & { child
                       <div className={'meta-box'} id={'tool-record'} data-mobile-panel={'overview'}>
                         <>
                           <h3 style={styleObject('margin-top:14px')}>{'직접 만들어 쓰고 있나요?'}</h3>
-                          <p>{'직접 만든 도구로 이 서비스의 기능을 대체했다면 표시해 주세요.'}</p>
+                          <p>{'이 서비스 대신 직접 만든 도구를 쓰고 있다면 알려주세요.'}</p>
                           <button
                             className={'primary'}
                             style={styleObject('width:100%')}
@@ -289,7 +291,7 @@ export default async function Viewslugastro(props: Record<string, any> & { child
                             data-slug={a.slug}
                             aria-pressed={voted}
                           >
-                            {voted ? '대체 경험 표시됨 · 취소' : '대체 경험 표시하기'}
+                            {voted ? '대체 경험 취소' : '직접 대체했어요'}
                           </button>
                           <button
                             className={'button secondary'}
@@ -300,10 +302,9 @@ export default async function Viewslugastro(props: Record<string, any> & { child
                             {bookmarked ? '저장했어요 ✓' : '도구 저장 ☆'}
                           </button>
                           <p className={'small'} style={styleObject('margin:12px 0 0')}>
+                            {'직접 대체했다고 남긴 응답은 '}
                             <span data-experience-count={''}>{count}</span>
-                            {
-                              '건의 버튼 응답입니다. 제작 여부와 절약액을\n                        확인한 수치는 아닙니다.\n                      '
-                            }
+                            {'건이에요. 실제 제작 여부와 절약한 비용은 확인하지 않았어요.'}
                           </p>
                         </>
                       </div>
@@ -319,7 +320,7 @@ export default async function Viewslugastro(props: Record<string, any> & { child
                                   ? '한국 원 (KRW)'
                                   : a.pricing.currency}
                             </dd>
-                            <dt>{'매달 결제할 때'}</dt>
+                            <dt>{'월간 결제 요금'}</dt>
                             <dd>
                               {a.pricing.monthlyNative === null ? '확인 필요' : a.pricing.monthlyNative}
                             </dd>
@@ -339,10 +340,8 @@ export default async function Viewslugastro(props: Record<string, any> & { child
                               </a>
                             </dd>
                             <dt>{'가격 확인 여부'}</dt>
-                            <dd>
-                              {a.pricing.source.status === 'verified' ? '가격 기준 확인' : '가격 확인 필요'}
-                            </dd>
-                            <dt>{'만들기 난이도'}</dt> <dd>{a.difficulty}</dd>
+                            <dd>{a.pricing.source.status === 'verified' ? '확인 완료' : '가격 확인 필요'}</dd>
+                            <dt>{'제작 난이도'}</dt> <dd>{a.difficulty}</dd>
                           </>
                         </dl>
                         {a.pricing.exchange && (
@@ -441,7 +440,7 @@ export default async function Viewslugastro(props: Record<string, any> & { child
               <div className={'mobile-only mobile-detail-action'}>
                 <>
                   <a className={'button'} href={'#tool-prompt'} data-detail-view={'prompt'}>
-                    {'\n                제작 요청문 보기 '}
+                    {'\n                프롬프트 보기 '}
                     <span aria-hidden={'true'}>{'↗'}</span>
                   </a>
                   <button className={'button secondary'} data-native-share={''} aria-label={'이 도구 공유'}>

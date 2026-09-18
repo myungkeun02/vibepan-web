@@ -18,7 +18,7 @@ export default async function Viewsuggestastro(props: Record<string, any> & { ch
           <header className={'page-head'}>
             <BrandIntro>
               <h1>{'정보 수정 제안'}</h1>
-              <p>{'잘못된 가격이나 기능 설명, 수정할 프롬프트를 알려주세요.'}</p>
+              <p>{'가격, 기능 설명, 프롬프트에서 수정할 내용을 알려주세요.'}</p>
             </BrandIntro>
           </header>
           <p className={'service-suggest-link'}>
@@ -30,7 +30,7 @@ export default async function Viewsuggestastro(props: Record<string, any> & { ch
             <label className={'form-field'}>
               <span>{'관련 도구 (선택)'}</span>
               <Select name={'slug'} aria-label={'관련 도구 (선택)'}>
-                <option value={''}>{'새 도구 제안 · 선택 안 함'}</option>
+                <option value={''}>{'도구 선택 안 함'}</option>
                 {apps.map((app, rowIndex1) => (
                   <option
                     key={rowIndex1}
@@ -49,7 +49,7 @@ export default async function Viewsuggestastro(props: Record<string, any> & { ch
               <input name={'title'} required={true} minLength={3} maxLength={140} />
             </label>
             <label className={'form-field'}>
-              <span>{'설명과 확인할 수 있는 공식 출처'}</span>
+              <span>{'수정할 내용과 참고 자료'}</span>
               <textarea
                 name={'body'}
                 required={true}
@@ -60,12 +60,10 @@ export default async function Viewsuggestastro(props: Record<string, any> & { ch
               />
             </label>
             <p className={'muted small'}>
-              {
-                '\n        운영자가 내용을 검토해요. 채택한 제안은 공식 자료를 확인한 뒤 도구 정보에 반영합니다.\n      '
-              }
+              {'\n        보내주신 내용과 자료를 검토한 뒤 도구 정보를 수정해요.\n      '}
             </p>
             <button type={'submit'} className={'primary'}>
-              {'제안 보내기 ↗'}
+              {'제안 보내기'}
             </button>
             <p className={'form-status'} role={'status'}></p>
           </form>

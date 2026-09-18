@@ -274,7 +274,7 @@
     font-size: 14px;
   }
   .service-page-head h1 {
-    font-size: 30px;
+    font-size: 24px;
   }
   .service-directory-nav {
     flex-direction: column;
@@ -321,7 +321,7 @@
     min-height: 48px;
   }
   .service-form-wrap .page-head h1 {
-    font-size: 28px;
+    font-size: 24px;
   }
   .service-review-status {
     padding: 16px;

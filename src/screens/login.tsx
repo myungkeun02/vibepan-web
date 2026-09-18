@@ -48,13 +48,13 @@ export default async function Viewloginastro(props: Record<string, any> & { chil
               />
             </label>
             <button type={'submit'} className={'primary'}>
-              {'로그인 ↗'}
+              {'로그인'}
             </button>
             <p className={'form-status'} role={'status'} />
           </form>
           <div className={'auth-links'}>
             <a href={'/forgot'}>{'비밀번호를 잊으셨나요?'}</a>
-            <a href={'/signup?returnTo=' + encodeURIComponent(returnTo)}>{'회원가입 ↗'}</a>
+            <a href={'/signup?returnTo=' + encodeURIComponent(returnTo)}>{'회원가입'}</a>
           </div>
           <div className={'auth-divider'}>
             {providers.length ? (
@@ -71,9 +71,7 @@ export default async function Viewloginastro(props: Record<string, any> & { chil
               ))
             ) : (
               <p className={'muted small'}>
-                {
-                  '\n            소셜 로그인은 준비 중이에요. 이메일로 가입하고 모든 기본 기능을 이용할 수 있어요.\n          '
-                }
+                {'\n            지금은 이메일로 가입하고 로그인할 수 있어요.\n          '}
               </p>
             )}
           </div>

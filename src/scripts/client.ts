@@ -247,11 +247,11 @@ export function enhance(navigate: (url: string, push?: boolean) => void) {
         const remove = b.getAttribute('aria-pressed') === 'true';
         const data = await api('/api/vote', { slug: b.dataset.slug, remove });
         b.setAttribute('aria-pressed', String(data.voted));
-        b.textContent = data.voted ? '대체 경험 표시됨 · 취소' : '대체 경험 표시하기';
+        b.textContent = data.voted ? '대체 경험 취소' : '직접 대체했어요';
         document
           .querySelectorAll('[data-experience-count]')
           .forEach((el) => (el.textContent = String(data.count)));
-        toast(data.voted ? '대체 경험을 표시했습니다.' : '표시를 취소했습니다.');
+        toast(data.voted ? '대체 경험을 남겼어요.' : '대체 경험을 취소했어요.');
         return;
       }
       if (b.hasAttribute('data-bookmark')) {
