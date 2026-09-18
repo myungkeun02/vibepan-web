@@ -49,6 +49,8 @@ body {
   color: var(--text);
   font: 16px/1.7 var(--sans);
   letter-spacing: -0.02em;
+  word-break: keep-all;
+  overflow-wrap: anywhere;
 }
 a {
   color: inherit;
